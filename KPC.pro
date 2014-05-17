@@ -18,15 +18,22 @@ SOURCES += main.cpp\
     unmarkedmodel.cpp \
     markedmodel.cpp \
     pictureeditor.cpp \
-    picturewidget.cpp
+    picturewidget.cpp \
+    markedpictureeditor.cpp \
+    unmarkedpictureeditor.cpp
 
 HEADERS  += mainwindow.h \
     picturesproject.h \
     unmarkedmodel.h \
     markedmodel.h \
     pictureeditor.h \
-    picturewidget.h
+    picturewidget.h \
+    markedpictureeditor.h \
+    picturestructs.h \
+    unmarkedpictureeditor.h
 
 FORMS    += mainwindow.ui
 
 OTHER_FILES +=
+
+LIBS += -L/usr/lib/x86_64-linux-gnu/

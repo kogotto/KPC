@@ -21,22 +21,30 @@ public:
 
 private slots:
     void openSlot();
+    void saveSlot();
 
     void unmarkedListObjectSelectSlot(const QModelIndex & index);
     void markedListObjectSelectSlot(const QModelIndex & index);
+
+    void unmarkedListDoubleClicked(QModelIndex index);
+    void markedListDoubleClicked(QModelIndex index);
+
+    void closePictureWidgetSlot();
+
     void appendSlot();
 
 protected:
-    virtual void paintEvent(QPaintEvent *);
 
 private:
 
     bool closePictureProject();
     void openPictureProject(const QString & path);
 
-    TPictureWidget * pictureWidget;
+    void createPictureWidget();
 
-    IPictureEditor pictureEditor;
+    bool changed;
+
+    TPictureWidget * pictureWidget;
 
     TPicturesProject * pictureProject;
 

@@ -1,14 +1,16 @@
 #include "picturesproject.h"
 
-#include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
 #include <algorithm>
 #include <assert.h>
 
-TPicturesProject::TPicturesProject(const QString & dirPath)
+#include "markedpictureeditor.h"
+#include "unmarkedpictureeditor.h"
+
+TPicturesProject::TPicturesProject(const QString & dirPath):
+    dir(dirPath)
 {
-    QDir dir(dirPath);
     if (!dir.exists()) {
         assert(false);
     }
@@ -48,17 +50,44 @@ TPicturesProject::TPicturesProject(const QString & dirPath)
 
 void TPicturesProject::save() const
 {
+    QFile goodDatFile(dir.absoluteFilePath(QString("good.dat")));
+    goodDatFile.open(QIODevice::WriteOnly);
+    QTextStream stream(&goodDatFile);
 
+    for (TMarkedPictures::const_iterator it = markedPictures.begin(); it != markedPictures.end(); ++it) {
+        const TMarkedPicture & picture = *it;
+        stream << "good/" << picture.name <<  " ";
+        const size_t objectCount = picture.objects.size();
+        stream << objectCount;
+        for (size_t i = 0; i < objectCount; ++i) {
+            const QRect & rect = picture.objects[i];
+            stream << " " << rect.left() << " " << rect.top() << " " << rect.width() << " " << rect.height();
+        }
+        stream << "\n";
+    }
 }
 
-IPictureEditor TPicturesProject::getUnmarkedEditor(size_t row)
+IPictureEditor *TPicturesProject::createUnmarkedEditor(size_t row)
 {
-    return IPictureEditor(unmarkedPictures[row].picture);
+    return new TUnmarkedPictureEditor(&unmarkedPictures[row], row, this);
 }
 
-IPictureEditor TPicturesProject::getMarkedEditor(size_t row)
+IPictureEditor * TPicturesProject::createMarkedEditor(size_t row)
 {
-    return IPictureEditor(markedPictures[row].picture);
+    return new TMarkedPictureEditor(&markedPictures[row]);
+}
+
+TMarkedPicture *TPicturesProject::makeMarked(size_t index)
+{
+    TUnmarkedPicture & unmarkedPicture = unmarkedPictures[index];
+
+    markedPictures.push_back(TMarkedPicture(
+                                 unmarkedPicture.name,
+                                 unmarkedPicture.picture)
+                             );
+    unmarkedPictures.erase(unmarkedPictures.begin() + index);
+
+    return &markedPictures.back();
 }
 
 void TPicturesProject::append()

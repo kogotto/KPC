@@ -5,11 +5,14 @@
 #include <utility>
 #include <QImage>
 #include <QString>
+#include <QDir>
 
-#include "pictureeditor.h"
+#include "picturestructs.h"
 
 class QDir;
 class QFile;
+
+class IPictureEditor;
 
 class TPicturesProject
 {
@@ -21,28 +24,15 @@ public:
     explicit TPicturesProject(const QString & dirPath);
     void save() const;
 
-    IPictureEditor getUnmarkedEditor(size_t row);
-    IPictureEditor getMarkedEditor(size_t row);
+    IPictureEditor * createUnmarkedEditor(size_t row);
+    IPictureEditor * createMarkedEditor(size_t row);
+
+    TMarkedPicture * makeMarked(size_t index);
 
     void append();
 
 private:
 
-    struct TUnmarkedPicture {
-        TUnmarkedPicture(QString name, QImage picture):
-            name(name),
-            picture(picture)
-        {}
-
-        QString name;
-        QImage picture;
-    };
-
-    struct TMarkedPicture {
-        QString name;
-        QImage picture;
-        std::vector<QRect> objects;
-    };
 
     struct TFinder {
         TFinder(const QString & name): name(name)
@@ -58,6 +48,8 @@ private:
 
     void loadPictures(const QDir & dir, const QStringList & pictureNameList);
     void readGoodDatFile(QFile & file);
+
+    QDir dir;
 
     typedef std::vector<TUnmarkedPicture> TUnmarkedPictures;
     TUnmarkedPictures unmarkedPictures;

@@ -1,24 +1,28 @@
 #ifndef PICTUREEDITOR_H
 #define PICTUREEDITOR_H
 
-#include <QImage>
+#include <QRect>
+
+class QImage;
 
 class IPictureEditor
 {
 public:
-    IPictureEditor(){}
+    virtual ~IPictureEditor();
+    virtual const QImage & getPicture() const = 0;
 
-    explicit IPictureEditor(const QImage & picture):
-        picture(picture)
-    {}
-
-    const QImage & getPicture() const {
-        return picture;
+    void setRect(const QRect & rect) {
+        this->rect = rect;
     }
 
+    const QRect & getRect() const {
+        return rect;
+    }
+
+    virtual void accept() = 0;
 
 private:
-    QImage picture;
+    QRect rect;
 
 };
 

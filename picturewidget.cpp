@@ -1,11 +1,14 @@
 #include "picturewidget.h"
+
 #include <QDebug>
 #include <QPainter>
+#include <QImage>
+#include "pictureeditor.h"
 
 
-
-TPictureWidget :: TPictureWidget( QWidget *parent ) :
-    QLabel( parent )
+TPictureWidget :: TPictureWidget(QWidget *parent , Qt::WindowFlags f) :
+    QWidget( parent, f ),
+    pictureEditor(0)
 {
     drawingFrame = false;
     frameDrawn = false;
@@ -15,11 +18,13 @@ TPictureWidget :: TPictureWidget( QWidget *parent ) :
 
 
 
-void TPictureWidget :: setImage( QImage vimage )
+void TPictureWidget :: setPictureEditor(IPictureEditor * pictureEditor)
 {
-    image = vimage;
-    setPixmap( QPixmap::fromImage( vimage ) );
-    resize( vimage.size() );
+    delete this->pictureEditor;
+    this->pictureEditor = 0;
+
+    this->pictureEditor = pictureEditor;
+    setImage(pictureEditor->getPicture());
 }
 
 
@@ -29,6 +34,34 @@ QImage TPictureWidget :: getFramedImage()
     return image.copy( QRect( firstFramePoint, secondFramePoint ) );
 }
 
+void TPictureWidget::closeEvent(QCloseEvent * e)
+{
+    emit closeSignal();
+    QWidget::closeEvent(e);
+}
+
+void TPictureWidget :: paintEvent( QPaintEvent * )
+{
+    QPainter painter;
+
+    painter.begin( this );
+    painter.drawImage( 0, 0, image );
+
+    const bool normalFrameSize = ( ( abs( firstFramePoint.rx() - secondFramePoint.rx() ) > 1 )
+                                   && ( abs( firstFramePoint.ry() - secondFramePoint.ry() ) > 1 ) );
+
+    if ( drawingFrame || ( frameDrawn && normalFrameSize ) )
+    {
+        QPen pen;
+        pen.setStyle( Qt::DashLine );
+        pen.setWidth( 1 );
+        pen.setColor( Qt::blue );
+        painter.setPen( pen );
+
+        painter.drawRect( QRect( firstFramePoint, secondFramePoint ) );
+    }
+    painter.end();
+}
 
 
 void TPictureWidget :: mousePressEvent( QMouseEvent *e )
@@ -89,30 +122,15 @@ void TPictureWidget :: mouseReleaseEvent( QMouseEvent *e )
     }
 }
 
-
-
-void TPictureWidget :: paintEvent( QPaintEvent * )
+void TPictureWidget::setImage(QImage vimage)
 {
-    QPainter painter;
-
-    painter.begin( this );
-    painter.drawImage( 0, 0, image );
-
-    const bool normalFrameSize = ( ( abs( firstFramePoint.rx() - secondFramePoint.rx() ) > 1 )
-                                   && ( abs( firstFramePoint.ry() - secondFramePoint.ry() ) > 1 ) );
-
-    if ( drawingFrame || ( frameDrawn && normalFrameSize ) )
-    {
-        QPen pen;
-        pen.setStyle( Qt::DashLine );
-        pen.setWidth( 1 );
-        pen.setColor( Qt::blue );
-        painter.setPen( pen );
-
-        painter.drawRect( QRect( firstFramePoint, secondFramePoint ) );
-    }
-    painter.end();
+    image = vimage;
+    //setPixmap( QPixmap::fromImage( vimage ) );
+    resize( vimage.size() );
 }
+
+
+
 
 
 
