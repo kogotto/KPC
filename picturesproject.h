@@ -12,7 +12,8 @@
 class QDir;
 class QFile;
 
-class IPictureEditor;
+class TMarkedPictureEditor;
+class TUnmarkedPictureEditor;
 
 class TPicturesProject
 {
@@ -24,8 +25,8 @@ public:
     explicit TPicturesProject(const QString & dirPath);
     void save() const;
 
-    IPictureEditor * createUnmarkedEditor(size_t row);
-    IPictureEditor * createMarkedEditor(size_t row);
+    TUnmarkedPictureEditor * createUnmarkedEditor(size_t row);
+    TMarkedPictureEditor * createMarkedEditor(size_t row);
 
     TMarkedPicture * makeMarked(size_t index);
 

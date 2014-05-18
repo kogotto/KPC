@@ -67,12 +67,12 @@ void TPicturesProject::save() const
     }
 }
 
-IPictureEditor *TPicturesProject::createUnmarkedEditor(size_t row)
+TUnmarkedPictureEditor *TPicturesProject::createUnmarkedEditor(size_t row)
 {
     return new TUnmarkedPictureEditor(&unmarkedPictures[row], row, this);
 }
 
-IPictureEditor * TPicturesProject::createMarkedEditor(size_t row)
+TMarkedPictureEditor *TPicturesProject::createMarkedEditor(size_t row)
 {
     return new TMarkedPictureEditor(&markedPictures[row]);
 }

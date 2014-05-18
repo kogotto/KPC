@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <assert.h>
 #include "picturewidget.h"
+#include "unmarkedpictureeditor.h"
+#include "markedpictureeditor.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -89,7 +91,7 @@ void MainWindow::unmarkedListObjectSelectSlot(const QModelIndex & index)
     }
 
     pictureWidget->setPictureEditor(
-                pictureProject->createUnmarkedEditor(index.row())
+                createUnmarkedEditor(index.row())
                 );
 }
 
@@ -126,6 +128,17 @@ void MainWindow::markedListDoubleClickedSlot(const QModelIndex &index)
     pictureWidget->setPictureEditor(
                 pictureProject->createMarkedEditor(index.row())
                 );
+}
+
+void MainWindow::getNextPicture(IPictureEditor *& nextPicture)
+{
+    if (pictureProject->unmarkedPictures.empty()) {
+        nextPicture = 0;
+        return;
+    }
+
+    nextPicture = createUnmarkedEditor(0);
+
 }
 
 void MainWindow::closePictureWidgetSlot()
@@ -191,21 +204,23 @@ void MainWindow::openPictureProject(const QString &path)
 
 void MainWindow::createPictureWidget()
 {
-//    pictureWidget = new TPictureWidget(0, Qt::Window);
-//    pictureWidget->setAttribute(Qt::WA_DeleteOnClose);
-//    pictureWidget->setWindowModality(Qt::NonModal);
-//    pictureWidget->setGeometry(100,100,200,200);
-
-
-//    pictureWidget->show();
-//    pictureWidget->repaint();
-
     pictureWidget = new TPictureWidget(0);
     pictureWidget->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(pictureWidget, SIGNAL(closeSignal()),
             this, SLOT(closePictureWidgetSlot()));
+    connect(pictureWidget, SIGNAL(needNextPicture(IPictureEditor*&)),
+            this, SLOT(getNextPicture(IPictureEditor *&)));
 
     pictureWidget->show();
 
+}
+
+IPictureEditor *MainWindow::createUnmarkedEditor(int row)
+{
+    TUnmarkedPictureEditor * editor = pictureProject->createUnmarkedEditor(row);
+    editor->setMarkedModel(markedModel);
+    editor->setUnmarkedModel(unmarkedModel);
+
+    return editor;
 }

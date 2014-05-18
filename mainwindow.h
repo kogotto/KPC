@@ -9,6 +9,7 @@
 #include "pictureeditor.h"
 
 class TPictureWidget;
+class IPictureEditor;
 
 class MainWindow:
         public QMainWindow,
@@ -30,6 +31,8 @@ private slots:
     void unmarkedListDoubleClickedSlot(const QModelIndex & index);
     void markedListDoubleClickedSlot(const QModelIndex & index);
 
+    void getNextPicture(IPictureEditor *&nextPicture);
+
     void closePictureWidgetSlot();
 
 protected:
@@ -40,6 +43,8 @@ private:
     void openPictureProject(const QString & path);
 
     void createPictureWidget();
+
+    IPictureEditor *createUnmarkedEditor(int row);
 
     bool changed;
 

@@ -2,6 +2,7 @@
 #define TPICTURE_WIDGET_H
 
 #include <QWidget>
+#include <QAction>
 
 class IPictureEditor;
 
@@ -15,6 +16,7 @@ public:
 
 signals:
     void closeSignal();
+    void needNextPicture(IPictureEditor *& nextPicture);
 
 public slots:
 
@@ -22,10 +24,21 @@ protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
+    virtual void mousePressEvent(QMouseEvent * e);
+    virtual void mouseMoveEvent(QMouseEvent * e);
+
+private slots:
+    void accept();
+
 private:
     void deletePreviousEditor();
-    IPictureEditor * pictureEditor;
+    QRect getRect() const;
 
+    QAction * acceptAction;
+
+    IPictureEditor * pictureEditor;
+    QPoint first;
+    QPoint second;
 };
 
 #endif // TPICTURE_WIDGET_H

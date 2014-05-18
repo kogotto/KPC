@@ -5,6 +5,8 @@
 
 class TUnmarkedPicture;
 class TPicturesProject;
+class TMarkedModel;
+class TUnmarkedModel;
 
 class TUnmarkedPictureEditor:
         public IPictureEditor
@@ -15,19 +17,15 @@ public:
     virtual const QImage & getPicture() const;
     virtual void accept();
 
+    void setMarkedModel(TMarkedModel * markedModel);
+    void setUnmarkedModel(TUnmarkedModel * unmarkedModel);
+
 private:
     TUnmarkedPicture * picture;
     size_t pictureIndex;
     TPicturesProject * pictureProject;
-
-    static struct TFoo {
-        TFoo()
-        {
-            int a = 0;
-            int b = a;
-            a = b;
-        }
-    } foo;
+    TMarkedModel * markedModel;
+    TUnmarkedModel * unmarkedModel;
 };
 
 #endif // UNMARKEDPICTUREEDITOR_H

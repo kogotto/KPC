@@ -8,6 +8,7 @@ class TPicturesProject;
 class TMarkedModel:
         public QAbstractListModel
 {
+    friend class TUnmarkedPictureEditor;
 public:
     explicit TMarkedModel(TPicturesProject * pp);
 
