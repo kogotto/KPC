@@ -27,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(actionSave, SIGNAL(triggered()),
             this, SLOT(saveSlot()));
 
+    connect(actionExit, SIGNAL(triggered()),
+            this, SLOT(close()));
+
     connect(unmarkedList, SIGNAL(clicked(const QModelIndex &)),
             this, SLOT(unmarkedListObjectSelectSlot(const QModelIndex &)));
 
@@ -71,6 +74,7 @@ void MainWindow::openSlot()
 
     closePictureProject();
     openPictureProject(path);
+    changed = false;
 }
 
 void MainWindow::saveSlot()
@@ -141,9 +145,19 @@ void MainWindow::getNextPicture(IPictureEditor *& nextPicture)
 
 }
 
+void MainWindow::changedSlot()
+{
+    changed = true;
+}
+
 void MainWindow::closePictureWidgetSlot()
 {
     pictureWidget = 0;
+}
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    emit closeSignal();
 }
 
 
@@ -211,6 +225,11 @@ void MainWindow::createPictureWidget()
             this, SLOT(closePictureWidgetSlot()));
     connect(pictureWidget, SIGNAL(needNextPicture(IPictureEditor*&)),
             this, SLOT(getNextPicture(IPictureEditor *&)));
+    connect(pictureWidget, SIGNAL(changed()),
+            this, SLOT(changedSlot()));
+
+    connect(this, SIGNAL(closeSignal()),
+            pictureWidget, SLOT(close()));
 
     pictureWidget->show();
 

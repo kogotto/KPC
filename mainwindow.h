@@ -33,9 +33,15 @@ private slots:
 
     void getNextPicture(IPictureEditor *&nextPicture);
 
+    void changedSlot();
+
     void closePictureWidgetSlot();
 
+signals:
+    void closeSignal();
+
 protected:
+    virtual void closeEvent(QCloseEvent *);
 
 private:
 

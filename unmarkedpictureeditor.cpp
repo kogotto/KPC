@@ -14,6 +14,7 @@ TUnmarkedPictureEditor::TUnmarkedPictureEditor(TUnmarkedPicture *picture,
     markedModel(0),
     unmarkedModel(0)
 {
+    setRect(QRect());
 }
 
 const QImage &TUnmarkedPictureEditor::getPicture() const
