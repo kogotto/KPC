@@ -36,4 +36,3 @@ FORMS    += mainwindow.ui
 
 OTHER_FILES +=
 
-LIBS += -L/usr/lib/x86_64-linux-gnu/

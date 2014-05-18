@@ -189,6 +189,10 @@ bool TPictureWidget::noRect() const
 }
 
 void TPictureWidget::moveRect(QPoint delta) {
+    if (noRect()) {
+        return;
+    }
+
     QPoint newFirst = first + delta;
     QPoint newSecond = second + delta;
     QRect pictureRect = getPictureRect();
@@ -201,6 +205,10 @@ void TPictureWidget::moveRect(QPoint delta) {
 
 void TPictureWidget::resizeRect(QPoint delta)
 {
+    if (noRect()) {
+        return;
+    }
+
     QRect newRect(first, second);
     newRect.setBottomRight(newRect.bottomRight() + delta);
     if (getPictureRect().contains(newRect)) {
