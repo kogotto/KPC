@@ -23,10 +23,3 @@ QVariant TUnmarkedModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TUnmarkedModel::append()
-{
-    const size_t rowIndex = pp->unmarkedPictures.size();
-    beginInsertRows(QModelIndex(), rowIndex, rowIndex);
-    pp->append();
-    endInsertRows();
-}

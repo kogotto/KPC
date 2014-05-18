@@ -23,11 +23,3 @@ QVariant TMarkedModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TMarkedModel::append()
-{
-    const size_t rowIndex = pp->markedPictures.size();
-    beginInsertRows(QModelIndex(), rowIndex, rowIndex);
-    pp->append();
-    endInsertRows();
-}
-

@@ -19,8 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     setupUi(this);
 
-    openPictureProject("C:\\tp\\proj\\KPC\\new_gate");
-
     connect(actionOpen, SIGNAL(triggered()),
             this, SLOT(openSlot()));
 
@@ -54,7 +52,7 @@ void MainWindow::openSlot()
     QFileDialog openDirectoryDialog(
                 this,
                 "Open pictures dir",
-                "c:\\tp\\proj\\KPC",
+                QApplication::applicationDirPath(),
                 "");
     openDirectoryDialog.setFileMode(QFileDialog::DirectoryOnly);
 
@@ -68,9 +66,6 @@ void MainWindow::openSlot()
     }
 
     QString path = pathList[0];
-
-    label->setText(path);
-
 
     closePictureProject();
     openPictureProject(path);
@@ -89,7 +84,6 @@ void MainWindow::saveSlot()
 
 void MainWindow::unmarkedListObjectSelectSlot(const QModelIndex & index)
 {
-    label->setText(pictureProject->unmarkedPictures[index.row()].name);
     if (pictureWidget == 0) {
         return;
     }
@@ -101,7 +95,6 @@ void MainWindow::unmarkedListObjectSelectSlot(const QModelIndex & index)
 
 void MainWindow::markedListObjectSelectSlot(const QModelIndex &index)
 {
-    label->setText(pictureProject->markedPictures[index.row()].name);
     if (pictureWidget == 0){
         return;
     }
