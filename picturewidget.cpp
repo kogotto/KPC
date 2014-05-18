@@ -180,7 +180,12 @@ void TPictureWidget::deletePreviousEditor()
 
 QRect TPictureWidget::getRect() const
 {
-    return QRect(first, second);
+    const int left = std::min(first.x(), second.x());
+    const int top = std::min(first.y(), second.y());
+    const int width = std::abs(first.x() - second.x());
+    const int height = std::abs(first.y() - second.y());
+
+    return QRect(left, top, width, height);
 }
 
 bool TPictureWidget::noRect() const
