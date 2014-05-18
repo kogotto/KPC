@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <assert.h>
+#include "picturewidget.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,8 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(markedList, SIGNAL(clicked(const QModelIndex &)),
             this, SLOT(markedListObjectSelectSlot(const QModelIndex &)));
 
-    connect(button, SIGNAL(clicked()),
-            this, SLOT(appendSlot()));
+    connect(unmarkedList, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(unmarkedListDoubleClickedSlot(const QModelIndex &)));
+
+    connect(markedList, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(markedListDoubleClickedSlot(const QModelIndex &)));
 
 }
 
@@ -100,7 +105,7 @@ void MainWindow::markedListObjectSelectSlot(const QModelIndex &index)
                 );
 }
 
-void MainWindow::unmarkedListDoubleClicked(QModelIndex index)
+void MainWindow::unmarkedListDoubleClickedSlot(const QModelIndex &index)
 {
     if (pictureWidget == 0)
     {
@@ -112,7 +117,7 @@ void MainWindow::unmarkedListDoubleClicked(QModelIndex index)
                 );
 }
 
-void MainWindow::markedListDoubleClicked(QModelIndex index)
+void MainWindow::markedListDoubleClickedSlot(const QModelIndex &index)
 {
     if (pictureWidget == 0) {
         createPictureWidget();
@@ -128,11 +133,6 @@ void MainWindow::closePictureWidgetSlot()
     pictureWidget = 0;
 }
 
-void MainWindow::appendSlot()
-{
-    unmarkedModel->append();
-    markedModel->append();
-}
 
 
 bool MainWindow::closePictureProject()
@@ -191,14 +191,21 @@ void MainWindow::openPictureProject(const QString &path)
 
 void MainWindow::createPictureWidget()
 {
-    pictureWidget = new TPictureWidget(0, Qt::Window);
+//    pictureWidget = new TPictureWidget(0, Qt::Window);
+//    pictureWidget->setAttribute(Qt::WA_DeleteOnClose);
+//    pictureWidget->setWindowModality(Qt::NonModal);
+//    pictureWidget->setGeometry(100,100,200,200);
+
+
+//    pictureWidget->show();
+//    pictureWidget->repaint();
+
+    pictureWidget = new TPictureWidget(0);
     pictureWidget->setAttribute(Qt::WA_DeleteOnClose);
-    pictureWidget->setWindowModality(Qt::NonModal);
-    pictureWidget->setGeometry(100,100,200,200);
 
     connect(pictureWidget, SIGNAL(closeSignal()),
             this, SLOT(closePictureWidgetSlot()));
 
     pictureWidget->show();
-    pictureWidget->repaint();
+
 }

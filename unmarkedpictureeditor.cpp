@@ -10,8 +10,6 @@ TUnmarkedPictureEditor::TUnmarkedPictureEditor(TUnmarkedPicture *picture,
     pictureIndex(pictureIndex),
     pictureProject(pictureProject)
 {
-    int a = 0;
-    a + 9;
 }
 
 const QImage &TUnmarkedPictureEditor::getPicture() const

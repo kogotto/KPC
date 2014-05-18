@@ -7,7 +7,8 @@
 #include "unmarkedmodel.h"
 #include "markedmodel.h"
 #include "pictureeditor.h"
-#include "picturewidget.h"
+
+class TPictureWidget;
 
 class MainWindow:
         public QMainWindow,
@@ -26,12 +27,10 @@ private slots:
     void unmarkedListObjectSelectSlot(const QModelIndex & index);
     void markedListObjectSelectSlot(const QModelIndex & index);
 
-    void unmarkedListDoubleClicked(QModelIndex index);
-    void markedListDoubleClicked(QModelIndex index);
+    void unmarkedListDoubleClickedSlot(const QModelIndex & index);
+    void markedListDoubleClickedSlot(const QModelIndex & index);
 
     void closePictureWidgetSlot();
-
-    void appendSlot();
 
 protected:
 

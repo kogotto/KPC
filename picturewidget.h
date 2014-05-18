@@ -1,10 +1,7 @@
-#ifndef IMAGEWIDGET_H
-#define IMAGEWIDGET_H
+#ifndef TPICTURE_WIDGET_H
+#define TPICTURE_WIDGET_H
 
-#include <QLabel>
-#include <QMouseEvent>
-#include <QPoint>
-#include <QRect>
+#include <QWidget>
 
 class IPictureEditor;
 
@@ -12,32 +9,23 @@ class TPictureWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TPictureWidget( QWidget *parent = 0, Qt::WindowFlags f=0 );
+    explicit TPictureWidget(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    ~TPictureWidget();
     void setPictureEditor(IPictureEditor * pictureEditor);
-    QImage getFramedImage();
-
-protected:
-    void closeEvent(QCloseEvent * e);
-    void paintEvent(QPaintEvent *);
 
 signals:
     void closeSignal();
 
-private slots:
-    void mousePressEvent( QMouseEvent *e );
-    void mouseMoveEvent( QMouseEvent *e );
-    void mouseReleaseEvent( QMouseEvent *e );
+public slots:
+
+protected:
+    virtual void closeEvent(QCloseEvent *);
+    virtual void paintEvent(QPaintEvent *);
 
 private:
-    void setImage(QImage vimage);
-    bool drawingFrame;
-    bool frameDrawn;
-    QPoint firstFramePoint;
-    QPoint secondFramePoint;
-    QRect frame;
-    QImage image;
+    void deletePreviousEditor();
     IPictureEditor * pictureEditor;
 
 };
 
-#endif // IMAGEWIDGET_H
+#endif // TPICTURE_WIDGET_H

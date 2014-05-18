@@ -5,6 +5,7 @@
 TMarkedPictureEditor::TMarkedPictureEditor(TMarkedPicture *picture):
     picture(picture)
 {
+    setRect(picture->objects[0]);
 }
 
 const QImage &TMarkedPictureEditor::getPicture() const

@@ -18,19 +18,19 @@ SOURCES += main.cpp\
     unmarkedmodel.cpp \
     markedmodel.cpp \
     pictureeditor.cpp \
-    picturewidget.cpp \
     markedpictureeditor.cpp \
-    unmarkedpictureeditor.cpp
+    unmarkedpictureeditor.cpp \
+    picturewidget.cpp
 
 HEADERS  += mainwindow.h \
     picturesproject.h \
     unmarkedmodel.h \
     markedmodel.h \
     pictureeditor.h \
-    picturewidget.h \
     markedpictureeditor.h \
     picturestructs.h \
-    unmarkedpictureeditor.h
+    unmarkedpictureeditor.h \
+    picturewidget.h
 
 FORMS    += mainwindow.ui
 

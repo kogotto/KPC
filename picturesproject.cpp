@@ -96,6 +96,7 @@ void TPicturesProject::append()
 
 void TPicturesProject::loadPictures(const QDir & dir, const QStringList & pictureNameList)
 {
+//    std::vector<QString>
     for (int i = 0; i < pictureNameList.size(); ++i)
     {
         const QString fileName(pictureNameList[i]);
@@ -105,7 +106,10 @@ void TPicturesProject::loadPictures(const QDir & dir, const QStringList & pictur
             continue;
         }
 
-        unmarkedPictures.push_back(TUnmarkedPicture(fileName,QImage(fileName)));
+        QImage pic;
+        if (pic.load(fullFileName)) {
+            unmarkedPictures.push_back(TUnmarkedPicture(fileName, pic));
+        }
     }
 }
 
