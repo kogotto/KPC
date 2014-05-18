@@ -12,6 +12,7 @@ public:
     TMarkedPictureEditor(TMarkedPicture * picture);
 
     virtual const QImage & getPicture() const;
+    virtual const QString & getName() const;
     virtual void accept();
 
 private:

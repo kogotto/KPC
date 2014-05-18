@@ -86,6 +86,8 @@ void TPictureWidget::setPictureEditor(IPictureEditor *pictureEditor)
         first = rect.topLeft();
         second = rect.bottomRight();
     }
+
+    setWindowTitle(pictureEditor->getName());
     update();
 }
 

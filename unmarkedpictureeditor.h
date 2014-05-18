@@ -15,6 +15,7 @@ public:
     TUnmarkedPictureEditor(TUnmarkedPicture * picture, size_t pictureIndex, TPicturesProject * pictureProject);
 
     virtual const QImage & getPicture() const;
+    virtual const QString & getName() const;
     virtual void accept();
 
     void setMarkedModel(TMarkedModel * markedModel);

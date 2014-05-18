@@ -19,6 +19,8 @@ public:
         return rect;
     }
 
+    virtual const QString & getName() const = 0;
+
     virtual void accept() = 0;
 
 private:

@@ -13,6 +13,11 @@ const QImage &TMarkedPictureEditor::getPicture() const
     return picture->picture;
 }
 
+const QString &TMarkedPictureEditor::getName() const
+{
+    return picture->name;
+}
+
 void TMarkedPictureEditor::accept()
 {
     picture->objects.clear();

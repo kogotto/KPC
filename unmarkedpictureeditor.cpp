@@ -22,6 +22,11 @@ const QImage &TUnmarkedPictureEditor::getPicture() const
     return picture->picture;
 }
 
+const QString &TUnmarkedPictureEditor::getName() const
+{
+    return picture->name;
+}
+
 void TUnmarkedPictureEditor::accept()
 {
     unmarkedModel->beginRemoveRows(QModelIndex(), pictureIndex, pictureIndex);
