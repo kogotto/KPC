@@ -141,6 +141,7 @@ void MainWindow::getNextPicture(IPictureEditor *& nextPicture)
 void MainWindow::changedSlot()
 {
     changed = true;
+    saveSlot();
 }
 
 void MainWindow::closePictureWidgetSlot()
