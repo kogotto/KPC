@@ -71,6 +71,7 @@ void TPictureWidget::setPictureEditor(IPictureEditor *pictureEditor)
 {
     if (pictureEditor == 0){
         close();
+        return;
     }
 
     deletePreviousEditor();
