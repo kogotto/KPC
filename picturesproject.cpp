@@ -50,6 +50,7 @@ TPicturesProject::TPicturesProject(const QString & dirPath):
 
 void TPicturesProject::save() const
 {
+    makeBackup();
     QFile goodDatFile(dir.absoluteFilePath(QString("good.dat")));
     goodDatFile.open(QIODevice::WriteOnly);
     QTextStream stream(&goodDatFile);
@@ -144,6 +145,16 @@ void TPicturesProject::readGoodDatFile(QFile & file)
             currentMarkedPicture.objects.push_back(QRect(left, top, width, height));
         }
     }
+}
+
+void TPicturesProject::makeBackup() const
+{
+    QFile goodDatFile(dir.absoluteFilePath(QString("good.dat")));
+    if (!goodDatFile.exists()) {
+        return;
+    }
+
+    goodDatFile.rename(dir.absoluteFilePath(QString("good.dat.bak")));
 }
 
 

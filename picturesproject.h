@@ -33,8 +33,6 @@ public:
     void append();
 
 private:
-
-
     struct TFinder {
         TFinder(const QString & name): name(name)
         {}
@@ -49,6 +47,8 @@ private:
 
     void loadPictures(const QDir & dir, const QStringList & pictureNameList);
     void readGoodDatFile(QFile & file);
+
+    void makeBackup() const;
 
     QDir dir;
 
