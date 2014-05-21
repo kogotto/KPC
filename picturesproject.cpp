@@ -154,7 +154,9 @@ void TPicturesProject::makeBackup() const
         return;
     }
 
-    goodDatFile.rename(dir.absoluteFilePath(QString("good.dat.bak")));
+    const QString backupFileName(dir.absoluteFilePath("good.dat.bak"));
+    QFile::remove(backupFileName);
+    goodDatFile.rename(backupFileName);
 }
 
 
