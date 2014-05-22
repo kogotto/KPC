@@ -28,10 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(actionExit, SIGNAL(triggered()),
             this, SLOT(close()));
 
-    connect(unmarkedList, SIGNAL(clicked(const QModelIndex &)),
+    connect(unmarkedList, SIGNAL(activated(const QModelIndex &)),
             this, SLOT(unmarkedListObjectSelectSlot(const QModelIndex &)));
 
-    connect(markedList, SIGNAL(clicked(const QModelIndex &)),
+    connect(markedList, SIGNAL(activated(const QModelIndex &)),
             this, SLOT(markedListObjectSelectSlot(const QModelIndex &)));
 
     connect(unmarkedList, SIGNAL(doubleClicked(QModelIndex)),
@@ -142,6 +142,7 @@ void MainWindow::changedSlot()
 {
     changed = true;
     saveSlot();
+    updateLabels();
 }
 
 void MainWindow::closePictureWidgetSlot()
@@ -208,6 +209,7 @@ void MainWindow::openPictureProject(const QString &path)
     unmarkedList->setModel(unmarkedModel);
     markedModel = new TMarkedModel(pictureProject);
     markedList->setModel(markedModel);
+    updateLabels();
 }
 
 void MainWindow::createPictureWidget()
@@ -236,4 +238,19 @@ IPictureEditor *MainWindow::createUnmarkedEditor(int row)
     editor->setUnmarkedModel(unmarkedModel);
 
     return editor;
+}
+
+void MainWindow::updateLabels()
+{
+    if (unmarkedModel != 0) {
+        unmarkedCountLabel->setText(
+                    QString::number(unmarkedModel->rowCount())
+                );
+    }
+
+    if (markedModel != 0) {
+        markedCountLabel->setText(
+                    QString::number(markedModel->rowCount())
+                );
+    }
 }

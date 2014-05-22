@@ -52,6 +52,8 @@ private:
 
     IPictureEditor *createUnmarkedEditor(int row);
 
+    void updateLabels();
+
     bool changed;
 
     TPictureWidget * pictureWidget;
